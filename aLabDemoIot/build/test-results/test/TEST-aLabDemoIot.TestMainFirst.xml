@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="aLabDemoIot.TestMainFirst" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-06-24T08:47:58" hostname="anataliTHINK" time="0.011">
+  <properties/>
+  <testcase name="testCreation" classname="aLabDemoIot.TestMainFirst" time="0.011"/>
+  <system-out><![CDATA[MainFirst created
+End of test
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
