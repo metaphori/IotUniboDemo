@@ -1,0 +1,41 @@
+/*
+ * buildAndRun.gradle
+ * This build file was written by the application designer.
+USAGE:	 
+ 	gradle -b buildAndRun.gradle run
+*/
+
+ 
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+
+version = "1.0"
+sourceCompatibility = "1.8"
+sourceSets {
+    main {
+        java { srcDirs = ['src' ] 	}
+    }
+    test {
+        java { srcDirs = ['test' ]   }
+    }
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    testCompile 'junit:junit:4.12'
+	compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4.8'
+	compile group: 'com.typesafe.akka', name: 'akka-remote_2.11', version: '2.4.9-RC2'
+}
+
+jar {
+    manifest {
+        attributes "Class-Path": configurations.compile.collect { "lib/"+it.getName() }.join(' ')
+        attributes 'Main-Class': 'aLabDemoIot.MainFirst'
+    }
+} 
+
+apply plugin: 'application'	 
+mainClassName = "aLabDemoIot.MainFirst"  
