@@ -13,6 +13,7 @@ private ActorRef led;
 	public void actionPerformed(ActionEvent e) {
  		led.tell("switch", ActorRef.noSender());
  	}
+ 	//Called by ButtonAkka
  	public void execAction(String cmd) {
  		led.tell("switch", ActorRef.noSender());
 	}

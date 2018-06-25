@@ -4,34 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
- 
-/*
- * ----------------------------------------------------------------
- * GOAL: an ActionListener that keeps track of the last event
-* ----------------------------------------------------------------
- */
+import java.util.Calendar; 
+
 public class ButtonListenerNaive implements ActionListener {
-private int count = 0;
-private ActionEvent curEvent = null;
- 
- 	public String convertTime(long time){
-	    Date date = new Date(time);
-	    Format format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	    return format.format(date);
-	}
+private int count    = 0;
+private Format sdf   = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		curEvent = e;
 		count++;
- 	 	System.out.println("actionPerformed " + e.getActionCommand() + " id=" + e.getID() + " from:" + e.getSource());
-	 	System.out.println("actionPerformed " + convertTime(e.getWhen()));
+	 	System.out.println("ButtonListenerNaive actionPerformed " +  sdf.format(Calendar.getInstance().getTime()) );
     }
 	
 	public int getNumOfClicks(){
 		return count;
 	}
-	public ActionEvent getLastEvent(){
-		return curEvent;
-	}	
 }

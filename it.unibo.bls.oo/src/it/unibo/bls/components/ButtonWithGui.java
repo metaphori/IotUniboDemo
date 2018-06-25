@@ -1,12 +1,9 @@
 package it.unibo.bls.components;
-
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
-
 import it.unibo.bls.interfaces.IButton;
  
-
 /*
  * A Button that USES a java.awt.Button into a given a Frame  
  * and that adds to itself a given ActionListener
@@ -24,6 +21,4 @@ private static final long serialVersionUID = 1L;
 		frame.add(BorderLayout.WEST,this); 
 		frame.validate();
 	}
-	
 }
-

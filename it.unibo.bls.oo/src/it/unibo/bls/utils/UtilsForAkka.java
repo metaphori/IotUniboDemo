@@ -31,8 +31,8 @@ public class UtilsForAkka {
  	public static String ask( ActorRef actor, String query, int timeout){
 		try {
 			Future<Object> f1 = Patterns.ask(actor, query, timeout);
-			Timeout tout = new Timeout(Duration.create(timeout, "milliseconds"));
-			String answer = (String) Await.result(f1,tout.duration());
+			Timeout tout      = new Timeout(Duration.create(timeout, "milliseconds"));
+			String answer     = (String) Await.result(f1,tout.duration());
  			return answer;
  		} catch (Exception e) {
  			e.printStackTrace();

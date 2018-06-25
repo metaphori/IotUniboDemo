@@ -1,6 +1,5 @@
 package it.unibo.bls.akka;
 import java.awt.Frame;
-import java.awt.event.ActionListener;
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 import it.unibo.bls.utils.BlsFactory;
@@ -14,18 +13,16 @@ public class ButtonAkka extends UntypedActor {
  
 	public ButtonAkka(Frame frame, String cmd, ActorRef led){
 		this.cmd = cmd;
-		ActionListener control  = new BlsAkkaControl( led );  
-		BlsFactory.createButton( frame, cmd, control );  //TODO
+		control  = new BlsAkkaControl( led );  
+		BlsFactory.createButton( frame, cmd, control );   
 	}
-	
 	@Override
 	public void onReceive(Object msg) throws Throwable { 	
 		//USED FOR TESTING ONLY
 		System.out.println("ButtonAkka onReceive=" + msg + " " + getSender() );		
 //		String msgStr = msg.toString();
-//		if( msgStr.equals( cmd ))  {
+//		if( msgStr.equals( cmd ))   
 			control.execAction(cmd);
-// 		}
 	}
 
 	
