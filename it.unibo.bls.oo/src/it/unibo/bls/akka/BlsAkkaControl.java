@@ -1,7 +1,7 @@
 package it.unibo.bls.akka;
 import java.awt.event.ActionEvent;
 import akka.actor.ActorRef;
-import it.unibo.bls.components.ButtonListenerNaive;
+import it.unibo.bls.devices.ButtonListenerNaive;
   
 public class BlsAkkaControl extends ButtonListenerNaive {
 private ActorRef led;

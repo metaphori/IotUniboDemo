@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.unibo.bls.components.ButtonListener;
+import it.unibo.bls.devices.ButtonListener;
 import it.unibo.bls.interfaces.ILed;
  
 public class TestBlsGuiBase {

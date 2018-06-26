@@ -1,13 +1,13 @@
-package it.unibo.bls.components;
+package it.unibo.bls.devices;
 
 import it.unibo.bls.interfaces.ILed;
 
-public class Led implements ILed{
+public class LedMock implements ILed{
 private boolean state = false;
 
 //Factory method
 public static ILed createLed(){
-	return new Led();
+	return new LedMock();
 }
 @Override
 public void turnOn(){

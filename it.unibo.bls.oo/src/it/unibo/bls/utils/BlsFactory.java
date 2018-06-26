@@ -6,8 +6,8 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import it.unibo.bls.akka.ButtonAkka;
 import it.unibo.bls.akka.LedAkka;
-import it.unibo.bls.components.ButtonWithGui;
-import it.unibo.bls.components.LedWithGui;
+import it.unibo.bls.devices.ButtonAsGuiBasic;
+import it.unibo.bls.devices.LedAsGui;
 import it.unibo.bls.interfaces.IButton;
 import it.unibo.bls.interfaces.ILed;
 
@@ -16,10 +16,10 @@ public class BlsFactory {
 	 * BLS components low Level	
 	 */
 	public static IButton createButton(Frame frame, String label, ActionListener listener) {
-		return new ButtonWithGui(frame, label,listener);	
+		return new ButtonAsGuiBasic(frame, label,listener);	
  	}
 	public static ILed createLed( Frame frame ){
-		LedWithGui led = new LedWithGui(frame);
+		LedAsGui led = new LedAsGui(frame);
  		led.turnOff();
 	 	return led;
 	}

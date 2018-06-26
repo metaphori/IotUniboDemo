@@ -1,4 +1,4 @@
-package it.unibo.bls.components;
+package it.unibo.bls.devices;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

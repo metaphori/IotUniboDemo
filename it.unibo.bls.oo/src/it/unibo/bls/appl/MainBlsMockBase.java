@@ -1,54 +1,42 @@
 package it.unibo.bls.appl;
 import it.unibo.bls.applLogic.BlsApplicationLogic;
-import it.unibo.bls.components.ButtonMock;
-import it.unibo.bls.components.Led;
+import it.unibo.bls.devices.ButtonMock;
+import it.unibo.bls.devices.LedMock;
 import it.unibo.bls.interfaces.IButton;
 import it.unibo.bls.interfaces.ILed;
-import it.unibo.bls.utils.UtilsForAkka;
+import it.unibo.bls.utils.Utils;
  
-
-/*
- * -----------------------------------------------------------
- * GAOL: show a possible ButtonLed system built by using mock devices
- * -----------------------------------------------------------
- */
 public class MainBlsMockBase  {
-  	private IButton btn;
- 	private ILed led;
-   	
+private IButton btn;
+private ILed led;
+//Factory method   	
   	public static MainBlsMockBase createTheSystem(){
  		return new MainBlsMockBase();
- 	}
- 	
+ 	} 	
  	protected MainBlsMockBase( ) {
  		createComponents();
- 	}	
-	
- 	public IButton getButton(){
-		return btn;
-	}
-	public ILed getLed(){
-		return led;
-	}
- 	
+ 	}		
  	protected void createComponents(){
-  		//Create Led
- 		led = Led.createLed(   );
- 		//Create the application logic
- 		BlsApplicationLogic applLogic = new BlsApplicationLogic(led);
+  		led = LedMock.createLed(   );
+   		BlsApplicationLogic applLogic = new BlsApplicationLogic(led);
  		btn = ButtonMock.createButton(  applLogic );
  		led.turnOff();
-	}
- 
+	} 
  	public void doSomeJob() {
  		System.out.println("doSomeJob starts"   );
  		((ButtonMock)btn).press();
- 		UtilsForAkka.delay(1000);
+ 		Utils.delay(1000);
  		((ButtonMock)btn).press();
  		System.out.println("doSomeJob ends"   );
  	}
-	public static void main(String[] args) {
-		MainBlsMockBase sys = createTheSystem();
-		sys.doSomeJob();
- 	}
+ 	public IButton getButton(){	//introduced for testing
+		return btn;
+	}
+	public ILed getLed(){ //introduced for testing
+		return led;
+	} 	
+public static void main(String[] args) {
+   MainBlsMockBase sys = createTheSystem();
+   sys.doSomeJob();
+ }
 }

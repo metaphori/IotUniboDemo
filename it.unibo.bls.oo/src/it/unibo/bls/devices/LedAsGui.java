@@ -1,4 +1,4 @@
-package it.unibo.bls.components;
+package it.unibo.bls.devices;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,7 +11,7 @@ import it.unibo.bls.interfaces.ILed;
 /*
  * A Led that USES a GUI Panel into a given a Frame
  */
-public class LedWithGui extends Led{
+public class LedAsGui extends LedMock{
 
 private Panel p ; 
  
@@ -19,10 +19,10 @@ private final Dimension sizeOn  = new Dimension(100,100);
 private final Dimension sizeOff = new Dimension(10,10);
 
 public static ILed createLed( Frame frame){
-	LedWithGui led = new LedWithGui(frame);
+	LedAsGui led = new LedAsGui(frame);
  	return led;
 }
-	public LedWithGui( Frame frame ) {
+	public LedAsGui( Frame frame ) {
 		super();
  		configure(frame);
   	}	
