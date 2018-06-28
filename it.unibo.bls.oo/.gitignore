@@ -5,3 +5,5 @@ node_modules/
 *.ipr
 *.iws
 .gradle/
+out/
+build/
