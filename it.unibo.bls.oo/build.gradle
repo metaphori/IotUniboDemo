@@ -7,6 +7,7 @@ USAGE:
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea' // plugin for IDE IntelliJ IDEA 
 
 version = "1.0"
 sourceCompatibility = "1.8"
