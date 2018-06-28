@@ -1,0 +1,103 @@
+A straightforward way to enable seamless distribution of the BLS 
+ as well as heterogeneity in the implementations of its components
+ is to adopt a Service-Oriented Architecture (SOA),
+ where the system components become services, with a well-defined interface (contract),
+ that interact using interoperable protocols.
+ReST is a particular architectural style for a SOA; 
+ it defines some key principles and constraints regulating how services have to be designed,
+ most prominently, the stateless-ness of servers and uniform interface (based on HTTP methods, media types, URIs, manipulation of resources through representations, self-contained messages and HATEOAS).
+ 
+Spring Boot is a framework that supports the development of RESTful services.
+ It builds on the Spring Framework which, at its core, is an IoC framework;
+ the idea is to declare "managed components" (called "beans" in Spring) through Java annotations or XML,
+ wire those beans in other components (through field, constructor, or setter injection),
+ and then let the framework deal with the injection of components and management of their lifecycle.
+ 
+In order to enable Spring Boot in a Gradle project, you need to extend your build definition (build.gradle) with:
+
+buildscript { // This block is e.g. for adding dependencies *to the build itself*
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
+	}
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceSets {
+    main { resources { srcDir 'resources' } } // Declares directory for resources
+}
+
+dependencies {
+  // .....
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+}
+
+bootJar {
+	mainClassName = 'it.unibo.bls.spring.buttonService.MainButtonService'
+	baseName = 'unibo-button'
+	version =  '1.0.0'
+}
+
+The task `bootJar` builds a Fat JAR (i.e., the app code + all the dependencies) under /build/libs;
+ the idea (cf., microservices) is to have a single artifact (also containing the webserver!) that can be easily deployed.
+(Unfortunately you can only define one "boot JAR"; this is coherent with the microservices philosophy, where each service gets its own repository and build!)
+
+An example of the BLS using Spring is in package `it.unibo.bls.spring`:
+ two services are defined for the button and the led, in sub-packages `button` and `led`, resp.
+Each service consists of:
+- A main class, annotated with `@SpringBootApplication`, which is the same as having `@Configuration` (this class may declare beans), 
+`@EnableAutoConfiguration` (attempts to guess and configure beans that you are likely to need by analysing the classpath), `@ComponentScan` (registers beans by looking for classes annotated with `@Component` in this package and subpackages),
+that starts the Spring application for the service (i.e., we give control to Spring for managing the declared components).
+- A resource file, under `/resources/application-xxx.yml`, defining some configuration for the service (e.g., the Spring application name, and the port to which the server should bind).
+- A REST controller class (cf., MVC pattern), annotated with `@RestController`, which defines the (RESTful) HTTP interface for the service
+ by annotating methods with `@RequestMapping(value='uri/path')`
+- A managed component class, annotated with `@Component`, that appropriately wraps the component (e.g., the button or the led).
+
+Considers, for instance, the implementation of `LedController`
+
+@RestController @RequestMapping(value = "/led")
+public class LedController {
+    @Autowired private ILed led;
+
+    @RequestMapping(value = "/state")
+    public Boolean state(){
+        return led.getState();
+    }
+
+    @RequestMapping(value = "/turnOn")
+    public void turnOn(){
+        led.turnOn();
+    }
+
+    @RequestMapping(value = "/turnOff")
+    public void turnOff(){
+        led.turnOff();
+    }
+}
+
+Notice the use of annotation `@Autowired` to enable field injection with a bean conforming interface `Iled`.
+Such bean is defined as follows:
+
+@Component
+public class LedComponent extends LedMock { }
+
+i.e., it is a candidate for auto-detection when using annotation-based configuration and classpath scanning.
+Notice that by default the "scope" of a component is "singleton" (i.e., one instance per container);
+ other scopes are e.g. "request" (per HTTP request) and "session" (per HTTP session).
+ 
+When the Spring application is started, the framework will start an embedded server (cf., application containers with WAR deployment),
+ binding at the configured port, and will use the declared controllers to map HTTP requests to methods.
+ From the point of view of concurrency, it uses the Servlet model, i.e., one thread per request.
+ Notice that the `ButtonComponent`, which internally reuses `BlsApplicationLogic`, is prone to race conditions (cf., Isolation property of ACID).
+
+In order to run the system, launch the following main classes:
+
+- `MainButtonService` (NOTE: you also need to pass the JVM option `-Djava.awt.headless=false`)
+- `MainLedService`
+
+Then, you can press the button by performing a GET request at http://localhost:8080/button/press ,
+and inspect the state of the led by performing a GET request at http://localhost:8081/led/state .
